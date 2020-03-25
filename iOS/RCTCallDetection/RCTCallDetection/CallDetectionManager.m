@@ -51,16 +51,13 @@ RCT_EXPORT_METHOD(stopListener) {
 
 - (void)callObserver:(CXCallObserver *)callObserver callChanged:(CXCall *)call {
     if (call.hasEnded == true) {
-      [self sendEventWithName:@"PhoneCallStateUpdate" body:@"Disconnected"];
-    }
-    if (call.isOutgoing == true && call.hasConnected == false && call.hasEnded == false) {
-      [self sendEventWithName:@"PhoneCallStateUpdate" body:@"Dialing"];
-    }
-    if (call.isOutgoing == false && call.hasConnected == false) {
-      [self sendEventWithName:@"PhoneCallStateUpdate" body:@"Incoming"];
-    }
-    if (call.hasEnded == false && call.hasConnected == true) {
-      [self sendEventWithName:@"PhoneCallStateUpdate" body:@"Connected"];
+        [self sendEventWithName:@"PhoneCallStateUpdate" body:@"Disconnected"];
+    } else if (call.hasConnected == true) {
+        [self sendEventWithName:@"PhoneCallStateUpdate" body:@"Connected"];
+    } else if (call.isOutgoing == true) {
+        [self sendEventWithName:@"PhoneCallStateUpdate" body:@"Dialing"];
+    } else if (call.isOutgoing == false) {
+        [self sendEventWithName:@"PhoneCallStateUpdate" body:@"Incoming"];
     }
 }
 
